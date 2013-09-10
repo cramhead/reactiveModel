@@ -1,0 +1,108 @@
+<head>
+    <title>
+        reactiveModal
+    </title>
+</head>
+
+<body>
+    {{> todos}}
+</body>
+<template name="todos">
+    <!-- Modal -->
+    <div class="modal fade" id="addtodoModal" tabindex="-1" role="dialog" aria-labelledby="addtodoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close cancel" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        Add a todo
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="addtodoForm" class="form-horizontal" role="form" data-validate="parsley">
+                        <div class="form-inline">
+                            <div class="validation-errors">
+                            </div>
+                            <label for="todoName" class="control-label">
+                                Name
+                            </label>
+                            <input name="todoName" id="todoName" type="text" data-trigger='keyup' data-rangelength="[5,256]" required="required" class="form-control todoName" />
+                            <div class="checkbox" value="false">
+                                <label>
+                                    <input id="todoCompleteCheckbox" type="checkbox">Todo is already completed
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default cancel" data-dismiss="modal">
+                        Close
+                    </button>
+                    <button id="addtodo" type="button" class="btn btn-primary save">
+                        Save changes
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <h1>
+        Todos
+    </h1>
+    <!-- Button trigger modal -->
+    <a data-toggle="modal" href="#addtodoModal" class="btn btn-primary btn-lg">Add a new todo</a>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Category
+                </th>
+            </thead>
+            {{#each todoList}} {{>todoDetails}} {{/each}}
+        </table>
+    </div>
+</template>
+<!--### ## -->
+<template name="todoDetails">
+    <tr>
+        <td>
+            <label for="">
+                {{title}}
+            </label>
+        </td>
+        <td>
+
+            <select name="categorySelect" role="dropdown-menu">
+                {{#each categories}}
+                <option value="{{_id}}" {{{currentCategory this._id ../categoryId }}} >
+                    <a href="#" role="menu-item">{{categoryName}}</a>
+                </option>
+                {{/each}}
+            </select>
+
+
+        </td>
+        <td>
+            <div class="checkbox">
+                <label>
+                    <input name="todoCheckbox" type="checkbox" {{#if checked}} checked=checked {{/if}}></input>
+                    Todo is already completed
+                </label>
+            </div>
+        </td>
+        <td>
+            <button type="button" class="btn btn-danger btn-xs remove">
+                <span class="glyphicon glyphicon-remove-circle">
+                    <span>
+            </button>
+        </td>
+    </tr>
+</template>
